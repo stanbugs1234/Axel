@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScheduledLocationResultView: View {
-    @ObservedObject var viewModel: TripsViewModel
+    @ObservedObject var viewModel: ReservationViewModel
     let config: LocationResultsViewConfig
     
     var body: some View {
@@ -29,5 +29,5 @@ struct ScheduledLocationResultView: View {
 }
 
 #Preview {
-    ScheduledLocationResultView(viewModel: TripsViewModel(), config: .ride)
+    ScheduledLocationResultView(viewModel: ReservationViewModel(), config: .ride)
 }

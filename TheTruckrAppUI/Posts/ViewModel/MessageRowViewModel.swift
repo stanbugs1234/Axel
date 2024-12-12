@@ -12,28 +12,31 @@ class MessageRowViewModel: ObservableObject {
     @Published var postComments = [PostComment]()
     @Published var postCommmentCount = Int()
     
+    let service = PostService.shared
+    
     init(post: Post) {
         self.post = post
         checkIfUserLikedPost()
-        PostService.shared.fetchPostCommentsCount(postId: post.id ?? "") { count in
+        service.fetchPostCommentsCount(postId: post.id ?? "") { count in
             self.postCommmentCount = count
         }
+        
     }
     
     func likePost() {
-        PostService.shared.likePost(post) {
+        service.likePost(post) {
             self.post.didLike = true
         }
     }
     
     func unlikePost() {
-        PostService.shared.unlikePost(post) {
+        service.unlikePost(post) {
             self.post.didLike = false
         }
     }
     
     func checkIfUserLikedPost() {
-        PostService.shared.checkIfUserLikePost(post) { didLike in
+        service.checkIfUserLikePost(post) { didLike in
             if didLike {
                 self.post.didLike = true
             }
@@ -41,13 +44,13 @@ class MessageRowViewModel: ObservableObject {
     }
     
     func fetchPostCommentsCount(postId: String) {
-        PostService.shared.fetchPostCommentsCount(postId: postId) { count in
+        service.fetchPostCommentsCount(postId: postId) { count in
             self.postCommmentCount = count
         }
     }
     
     func fetchPostComments(postId: String) {
-        PostService.shared.fetchPostComments(postId: postId) { postComments in
+        service.fetchPostComments(postId: postId) { postComments in
             self.postComments = postComments
         }
     }

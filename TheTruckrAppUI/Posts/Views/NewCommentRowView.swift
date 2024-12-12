@@ -11,14 +11,14 @@ import Kingfisher
 struct NewCommentRowView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var caption = ""
-    @EnvironmentObject var authViewModel: AuthViewModel
     @ObservedObject var viewModel = UploadPostViewModel()
     
     let post: Post
+    let user: User?
     
     var body: some View {
         //MARK: Comment & User Profile Image
-        if let user = UserService.shared.currentUser {
+        if let user = post.user {
             let abbreviatedName = initials(from: user.fullname)
             HStack(alignment: .top) {
                 CircularProfileImageView(user: user, size: .small)
@@ -45,15 +45,15 @@ struct NewCommentRowView: View {
                 }
             }
 //            .onDisappear(perform: PostViewModel.)
+        } else {
+            Text("Current User is Not Loading")
         }
     }
 }
 
-struct NewCommentRowView_Previews: PreviewProvider {
-    static var previews: some View{
-        NavigationView{
-            NewCommentRowView(post: dev2.mockPost)
-                .environmentObject(AuthViewModel())
-        }
+//MARK: Preview
+#Preview {
+    NavigationStack {
+        NewCommentRowView(post: MockData.posts.first!, user: MockData.users.first!)
     }
 }

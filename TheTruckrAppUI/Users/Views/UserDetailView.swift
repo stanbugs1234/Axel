@@ -36,7 +36,7 @@ struct UserDetailView: View {
 //                        .padding(.trailing)
                     
                     HStack {
-                        Text(ratingViewModel.averageUserRating(uid: user.uid ?? ""))
+                        Text(ratingViewModel.averageUserRatingString(uid: user.uid ?? ""))
                             .font(.footnote)
                         
                         Image(systemName: "star.fill")

@@ -11,7 +11,6 @@ import Kingfisher
 struct NewMessageView: View {
     
     @State private var caption = ""
-    @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel = UploadPostViewModel()
     
@@ -77,6 +76,6 @@ struct NewMessageView: View {
 struct NewMessageView_Previews: PreviewProvider {
     static var previews: some View {
         NewMessageView()
-            .environmentObject(AuthViewModel())
     }
 }
+

@@ -8,35 +8,33 @@
 import SwiftUI
 
 struct SharePostView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
-    
     let post: Post
+    let user: User?
     
     var body: some View {
-        VStack {
-            NewCommentRowView(post: post)
-                .frame(height: 80)
-            
-            Divider()
-            
-            ScrollView {
-                MessageRowView(post: post, user: post.user!)
-                    .padding(.top, 5)
+        if let user = post.user {
+            VStack {
+                NewCommentRowView(post: post, user: user)
+                    .frame(height: 80)
+                
+                Divider()
+                
+                ScrollView {
+                    PostRowView(post: post, user: post.user!)
+                        .padding()
+                }
+                
+                Spacer()
             }
-
-            Spacer()
+            .padding()
+            .navigationTitle("Share Post")
         }
-        .padding()
-        .navigationTitle("Share Post")
     }
-        
 }
 
-struct SharePostView_Previews: PreviewProvider {
-    static var previews: some View{
-        NavigationView{
-            SharePostView(post: dev2.mockPost)
-                .environmentObject(AuthViewModel())
-        }
+//MARK: Preview
+#Preview {
+    NavigationStack {
+        SharePostView(post: MockData.posts.first!, user: MockData.users.first!)
     }
 }

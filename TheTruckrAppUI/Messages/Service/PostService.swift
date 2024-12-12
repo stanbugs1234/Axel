@@ -22,7 +22,8 @@ class PostService {
                     "likes": 0,
                     "timestamp": Timestamp(date: Date())] as [String : Any]
         
-        Firestore.firestore().collection("posts").document()
+        FirestoreConstants.PostCollection
+            .document()
             .setData(data) { error in
                 if let error = error {
                     print("DEBUG: Failed to upload post with error: \(error.localizedDescription)")
@@ -46,14 +47,15 @@ class PostService {
                     "postId": postId,
                     "timestamp": Timestamp(date: Date())] as [String : Any]
         
-        Firestore.firestore().collection("posts").document(postId).collection("post_comments").document()
+        FirestoreConstants.PostCollection
+            .document(postId)
+            .collection("post_comments").document()
             .setData(data) { error in
                 if let error = error {
                     print("DEBUG: Failed to upload post with error: \(error.localizedDescription)")
                     completion(false)
                     return
                 }
-                
                 completion(true)
             }
     }
@@ -68,7 +70,9 @@ class PostService {
                     "postId": postId,
                     "timestamp": Timestamp(date: Date())] as [String : Any]
         
-        Firestore.firestore().collection("posts").document(postId).collection("shared_post").document()
+        FirestoreConstants.PostCollection
+            .document(postId)
+            .collection("shared_post").document()
             .setData(data) { error in
                 if let error = error {
                     print("DEBUG: Failed to upload post with error: \(error.localizedDescription)")
@@ -83,11 +87,10 @@ class PostService {
     
     //MARK: Fetch All Posts
     func fetchPosts(completion: @escaping([Post]) -> Void) {
-        Firestore.firestore().collection("posts")
+        FirestoreConstants.PostCollection
             .order(by: "timestamp", descending: true)
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else {return}
-                
                 let posts = documents.compactMap({ try? $0.data(as: Post.self) })
                 completion(posts)
             }
@@ -95,7 +98,7 @@ class PostService {
     
     //MARK: Fetch Posts by Uid
     func fetchPosts(forUid uid: String, completion: @escaping([Post]) -> Void) {
-        Firestore.firestore().collection("posts")
+        FirestoreConstants.PostCollection
             .whereField("uid", isEqualTo: uid)
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else {return}
@@ -106,13 +109,13 @@ class PostService {
     
     //MARK: Fetch Post by Post Id
     func fetchPostByPostId(postId: String, completion: @escaping([Post]) -> Void) {
-        Firestore.firestore().collection("posts")
-        .whereField("id", isEqualTo: postId)
-        .getDocuments { snapshot, _ in
-            guard let documents = snapshot?.documents else {return}
-            let posts = documents.compactMap({ try? $0.data(as: Post.self) })
-            completion(posts.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue()  }))
-        }
+        FirestoreConstants.PostCollection
+            .whereField("id", isEqualTo: postId)
+            .getDocuments { snapshot, _ in
+                guard let documents = snapshot?.documents else {return}
+                let posts = documents.compactMap({ try? $0.data(as: Post.self) })
+                completion(posts.sorted(by: { $0.timestamp.dateValue() > $1.timestamp.dateValue()  }))
+            }
     }
     
     
@@ -120,7 +123,7 @@ class PostService {
     func fetchPostComments(postId: String, completion: @escaping([PostComment]) -> Void) {
         var postCollection = [PostComment]()
         
-        Firestore.firestore().collection("posts")
+        FirestoreConstants.PostCollection
             .document(postId)
             .collection("post_comments")
             .getDocuments { snapshot, _ in
@@ -145,9 +148,9 @@ class PostService {
     }
     
     //MARK: PostComments Count
-  
+    
     func fetchPostCommentsCount(postId: String, completion: @escaping(Int) -> Void) {
-         Firestore.firestore().collection("posts")
+        FirestoreConstants.PostCollection
             .document(postId)
             .collection("post_comments")
             .getDocuments { snapshot, _ in
@@ -159,12 +162,12 @@ class PostService {
     
     
     func fetchUserCommentbyUid(forUid uid: String, completion: @escaping(User) -> Void) {
-        Firestore.firestore().collection("user")
-        .whereField("uid", isEqualTo: uid)
-        .getDocuments { snapshot, _ in
-            guard let documents = snapshot?.documents else {return}
-            let user = documents.compactMap({ try? $0.data(as: User.self) })
-        }
+        FirestoreConstants.UserCollection
+            .whereField("uid", isEqualTo: uid)
+            .getDocuments { snapshot, _ in
+                guard let documents = snapshot?.documents else {return}
+                let user = documents.compactMap({ try? $0.data(as: User.self) })
+            }
     }
 }
 
@@ -175,11 +178,12 @@ extension PostService {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let postId = post.id else { return }
         
-        let userLikesRef = Firestore.firestore().collection("users")
+        let userLikesRef = FirestoreConstants.UserCollection
             .document(uid)
             .collection("user-likes")
         
-        Firestore.firestore().collection("posts").document(postId)
+        FirestoreConstants.PostCollection
+            .document(postId)
             .updateData(["likes": post.likes + 1]) { _ in
                 userLikesRef.document(postId).setData([:]) { _ in
                     completion()
@@ -192,11 +196,12 @@ extension PostService {
         guard let postId = post.id else { return }
         guard post.likes > 0 else { return }
         
-        let userLikesRef = Firestore.firestore().collection("users")
+        let userLikesRef = FirestoreConstants.UserCollection
             .document(uid)
             .collection("user-likes")
         
-        Firestore.firestore().collection("posts").document(postId)
+        FirestoreConstants.PostCollection
+            .document(postId)
             .updateData(["likes": post.likes - 1]) { _ in
                 userLikesRef.document(postId).delete() { _ in
                     completion()
@@ -208,7 +213,7 @@ extension PostService {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let postId = post.id else { return }
         
-        Firestore.firestore().collection("users")
+        FirestoreConstants.UserCollection
             .document(uid).collection("user-likes")
             .document(postId).getDocument { snapshot, _ in
                 guard let snapshot = snapshot else { return }
@@ -219,7 +224,7 @@ extension PostService {
     func fetchLikedPosts(forUid uid: String, completion: @escaping([Post]) -> Void) {
         var posts = [Post]()
         
-        Firestore.firestore().collection("users")
+        FirestoreConstants.UserCollection
             .document(uid)
             .collection("user-likes")
             .getDocuments { snapshot, _ in
@@ -228,7 +233,7 @@ extension PostService {
                 documents.forEach { doc in
                     let postId = doc.documentID
                     
-                    Firestore.firestore().collection("posts")
+                    FirestoreConstants.PostCollection
                         .document(postId)
                         .getDocument { snapshot, _ in
                             guard let post = try? snapshot?.data(as: Post.self) else {return}
@@ -242,51 +247,51 @@ extension PostService {
 }
 
 //MARK: PostComment Likes
-    extension PostService {
-        func likePostComments(_ postComment: PostComment, completion: @escaping() -> Void) {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            guard let postId = postComment.postCommentId else { return }
-            
-            let userLikesRef = Firestore.firestore().collection("users")
-                .document(uid)
-                .collection("user-likes")
-            
-            Firestore.firestore().collection("post_comments").document(postId)
-                .updateData(["likes": postComment.likes + 1]) { _ in
-                    userLikesRef.document(postId).setData([:]) { _ in
-                        completion()
-                    }
-                }
-        }
+extension PostService {
+    func likePostComments(_ postComment: PostComment, completion: @escaping() -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let postId = postComment.postCommentId else { return }
         
-        func unlikePost(_ postComment: PostComment, completion: @escaping() -> Void) {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            guard let postId = postComment.postCommentId else { return }
-            guard postComment.likes > 0 else { return }
-            
-            let userLikesRef = Firestore.firestore().collection("users")
-                .document(uid)
-                .collection("user-likes")
-            
-            Firestore.firestore().collection("post_comments").document(postId)
-                .updateData(["likes": postComment.likes - 1]) { _ in
-                    userLikesRef.document(postId).delete() { _ in
-                        completion()
-                    }
-                }
-        }
+        let userLikesRef = Firestore.firestore().collection("users")
+            .document(uid)
+            .collection("user-likes")
         
-        func checkIfUserLikePost(_ postComment: PostComment, completion: @escaping(Bool) -> Void) {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            guard let postId = postComment.postCommentId else { return }
-            
-            Firestore.firestore().collection("users")
-                .document(uid).collection("user-likes")
-                .document(postId).getDocument { snapshot, _ in
-                    guard let snapshot = snapshot else { return }
-                    completion(snapshot.exists)
+        FirestoreConstants.PostCommentsCollection
+            .document(postId)
+            .updateData(["likes": postComment.likes + 1]) { _ in
+                userLikesRef.document(postId).setData([:]) { _ in
+                    completion()
                 }
-        }
+            }
     }
     
-
+    func unlikePost(_ postComment: PostComment, completion: @escaping() -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let postId = postComment.postCommentId else { return }
+        guard postComment.likes > 0 else { return }
+        
+        let userLikesRef = FirestoreConstants.UserCollection
+            .document(uid)
+            .collection("user-likes")
+        
+        FirestoreConstants.PostCommentsCollection
+            .document(postId)
+            .updateData(["likes": postComment.likes - 1]) { _ in
+                userLikesRef.document(postId).delete() { _ in
+                    completion()
+                }
+            }
+    }
+    
+    func checkIfUserLikePost(_ postComment: PostComment, completion: @escaping(Bool) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let postId = postComment.postCommentId else { return }
+        
+        FirestoreConstants.UserCollection
+            .document(uid).collection("user-likes")
+            .document(postId).getDocument { snapshot, _ in
+                guard let snapshot = snapshot else { return }
+                completion(snapshot.exists)
+            }
+    }
+}

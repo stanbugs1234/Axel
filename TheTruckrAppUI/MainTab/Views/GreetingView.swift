@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GreetingView: View {
     let user: User?
-    let viewModel: MainHomeViewModel
+    let viewModel: GreetingViewModel
     
     var body: some View {
         HStack {
@@ -20,12 +20,12 @@ struct GreetingView: View {
         .font(.title3)
         .fontWeight(.semibold)
         .foregroundColor(.themeGreen)
-        .padding(.bottom, 30)
+        .padding(.vertical)
     }
 }
 
 struct GreetingView_Previews: PreviewProvider {
     static var previews: some View {
-        GreetingView(user: dev2.mockUser, viewModel: MainHomeViewModel())
+        GreetingView(user: dev2.mockUser, viewModel: GreetingViewModel())
     }
 }

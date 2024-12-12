@@ -32,10 +32,7 @@ class ExploreViewModel: ObservableObject {
     
 //    let service = UserServiceHelper()
 //    
-//    init() {
-//        fetchUsers()
-//    }
-//    
+
 
     func fetchUsers() async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return}

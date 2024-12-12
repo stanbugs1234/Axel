@@ -11,7 +11,7 @@ class ProfileViewModel: ObservableObject {
     @Published var posts = [Post]()
     @Published var likedPosts = [Post]()
     
-    private let service = PostService()
+    private let service = PostService.shared
     private let userService = UserServiceHelper()
     let user: User
     

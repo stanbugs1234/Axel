@@ -13,8 +13,7 @@ import Combine
 
 class RatingViewModel: ObservableObject {
     @Published var ratings = [Rating]()
-    
-    let userService = UserService.shared
+
     let user: User
     
     private let service = RatingService()
@@ -24,7 +23,8 @@ class RatingViewModel: ObservableObject {
         self.fetchUserRatings()
     }
     
-    //MARK: Fetch User
+    //MARK: Fetch User Ratings
+    
     //TODO: add function to fetch user
     
     //MARK: Fetch User Rating Count
@@ -53,7 +53,7 @@ class RatingViewModel: ObservableObject {
     }
     
     //MARK: String Average User Rating
-    public func averageUserRating(uid: String) -> String {
+    public func averageUserRatingString(uid: String) -> String {
         let averageRating = calculateAverageRating(uid: uid)
         
         let formatter = NumberFormatter()

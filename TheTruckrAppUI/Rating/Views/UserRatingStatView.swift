@@ -17,7 +17,7 @@ struct UserRatingStatView: View {
     }
     
     var body: some View {
-        Text(ratingViewModel.averageUserRating(uid: user.uid!))
+        Text(ratingViewModel.averageUserRatingString(uid: user.uid!))
             .font(.caption)
         
         Image(systemName: "star.fill")
@@ -29,9 +29,6 @@ struct UserRatingStatView: View {
     }
 }
 
-struct UserRatingStatView_Previews: PreviewProvider  {
-    static var previews: some View {
-        UserRatingStatView(user: dev2.mockUser)
-    }
-   
+#Preview {
+    UserRatingStatView(user: MockData.users[0])
 }

@@ -8,16 +8,20 @@
 import Firebase
 import FirebaseFirestoreSwift
 
+
 class UserService {
-    static let shared = UserService()
-    @Published var user: User?
     @Published var currentUser: User?
     
+    static let shared = UserService()
+    
+    init() {
+        Task { try await fetchCurrentUser() }
+    }
     
     @MainActor
     func fetchCurrentUser() async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
+        let snapshot = try await FirestoreConstants.UserCollection.document(uid).getDocument()
         let user = try snapshot.data(as: User.self)
         self.currentUser = user
     }
@@ -45,7 +49,7 @@ class UserService {
     func fetchUsers(forUid uid: String, completion: @escaping ([User]) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else {return}
         
-        Firestore.firestore().collection("users").document(uid).collection("friend_requests")
+        FirestoreConstants.UserCollection.document(uid).collection("friend_requests")
             .whereField("uid", isEqualTo: uid)
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else {return}
@@ -65,7 +69,7 @@ class UserService {
     }
     
     func fetchUserCommentbyUid(forUid uid: String, completion: @escaping(User) -> Void) {
-        Firestore.firestore().collection("user")
+        FirestoreConstants.UserCollection
             .whereField("uid", isEqualTo: uid)
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else {return}

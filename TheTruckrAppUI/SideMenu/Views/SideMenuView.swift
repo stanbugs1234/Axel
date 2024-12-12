@@ -168,7 +168,7 @@ struct SideMenuView: View {
                     case.settings:
                         SettingsView(user: user)
                     case .messages:
-                        FeedView(friendViewModel: FriendRequestViewModel())
+                        FeedView()
                     }
                 }
                 .padding(5)

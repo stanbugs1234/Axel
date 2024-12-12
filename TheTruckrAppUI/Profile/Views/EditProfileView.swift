@@ -10,63 +10,68 @@ import SwiftUI
 struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var viewModel : AuthViewModel
+    @ObservedObject var viewModel: AccountViewModel
     
     let user: User
     
     var body: some View {
-        VStack {
-            HStack {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Text("Cancel")
-                        .foregroundColor(.themeGreen)
-                }
-                
-                Spacer()
-                
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Text("Save")
-                        .foregroundColor(.themeGreen)
-                }
-                .buttonStyle(.bordered)
-            }
-            .padding()
-            
-            //MARK: Change Profile Photo Section
-            UserProfileSelectorView(user: user)
-            
-            VStack {
-                List {
-                    ForEach(EditProfileViewModel.allCases) {
-                        viewModel in
-                        NavigationLink(value: viewModel) {
-                            EditProfileOptionRowView(viewModel: viewModel)
-                                .padding(.top, 13)
+        NavigationStack {
+            ScrollView {
+                VStack {
+                    //MARK: Change Profile Photo Section
+                    CurrentUserProfileHeaderView(viewModel: viewModel, user: user)
+                        .padding(.top)
+                        .padding(.bottom, 30)
+                    
+                    VStack {
+                        List {
+                            ForEach(EditProfileViewModel.allCases) {
+                                viewModel in
+                                NavigationLink(value: viewModel) {
+                                    EditProfileOptionRowView(viewModel: viewModel)
+                                        .padding(.top, 13)
+                                }
+                            }
+                            .navigationDestination(for: EditProfileViewModel.self) { viewModel in
+                                switch viewModel {
+                                case .company:
+                                    Text("Company")
+                                }
+                            }
                         }
-                    }
-                    .navigationDestination(for: EditProfileViewModel.self) { viewModel in
-                        switch viewModel {
-                        case .company:
-                            Text("Company")
-                        }
+                        Spacer()
                     }
                 }
-                Spacer()
+                .scrollIndicators(.hidden)
+                .navigationTitle("Edit Profile")
+                .toolbarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(action: { presentationMode.wrappedValue.dismiss() }) {
+                            Text("Cancel")
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: { presentationMode.wrappedValue.dismiss() }) {
+                            Text("Save")
+                        }
+                    }
+                    ToolbarItem(placement: .keyboard) {
+                        DismissKeyboardButton()
+                    }
+                }
+                
+                .fontWeight(.medium)
             }
         }
-        .navigationTitle("Edit Profile")
+        .foregroundStyle(.opposite)
     }
 }
 
-struct EditProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            EditProfileView(user: dev2.mockUser)
-                .environmentObject(AuthViewModel())
-        }
+#Preview {
+    NavigationStack {
+        EditProfileView(viewModel: AccountViewModel(), user: MockData.users.first!)
     }
 }
+

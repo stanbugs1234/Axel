@@ -9,69 +9,72 @@ import SwiftUI
 
 struct PostCommentView: View {
     @ObservedObject var viewModel: PostCommentViewModel
-    @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.presentationMode) var presentationMode
     
     init(post: Post) {
         self.post = post
         self.viewModel = PostCommentViewModel(post: post)
+        self.user = UserService.shared.currentUser
     }
     
     let post: Post
+    let user: User?
     
     var body: some View {
-        ZStack {
-            VStack{
-                HStack{
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Text("Cancel")
-                            .foregroundColor(.themeGreen)
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
+        if let user = viewModel.post.user {
+            ZStack {
+                VStack{
+                    HStack{
+                        Button {
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Text("Cancel")
+                                .foregroundColor(.themeGreen)
+                                .padding(.horizontal)
+                                .padding(.vertical, 8)
+                        }
+                        
+                        Spacer()
                     }
+                    .padding(.top)
                     
-                    Spacer()
-                }
-                .padding(.top)
-                
-                ScrollView {
-                    //MARK: MessageRowView - Actual Post
-                    HStack {
-                        MessageRowView(post: post, user: post.user!)
-                    }
-                    
-                    //MARK: Comments for Post
-                    LazyVStack {
-                        ForEach(viewModel.postComments) { postComment in
-                            CommentRowView(postComment: postComment, postCommentUser: postComment.user!)
-                                .padding(.trailing)
-                                .padding(.leading)
+                    ScrollView {
+                        //MARK: MessageRowView - Actual Post
+                        HStack {
+                            PostRowView(post: post, user: post.user!)
+                        }
+                        
+                        //MARK: Comments for Post
+                        LazyVStack {
+                            ForEach(viewModel.postComments) { postComment in
+                                CommentRowView(postComment: postComment, postCommentUser: user)
+                                    .padding(.trailing)
+                                    .padding(.leading)
+                            }
                         }
                     }
-                }
-                
-                Spacer()
-                
-                //MARK: New Comment Section
-                HStack(alignment: .bottom) {
-                    NewCommentRowView(post: post)
-                        .frame(height: 100, alignment: .bottom)
+                    
+                    
+                    Spacer()
+                    
+                    //MARK: New Comment Section
+                    HStack(alignment: .bottom) {
+                        NewCommentRowView(post: post, user: user)
+                            .frame(height: 100, alignment: .bottom)
+                    }
+                    
                 }
             }
+            .padding(.trailing)
+            .padding(.leading)
         }
-        .padding(.trailing)
-        .padding(.leading)
     }
 }
 
 
-struct PostCommentView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            PostCommentView(post: dev2.mockPost)
-                .environmentObject(AuthViewModel())
-        }
+//MARK: Preview
+#Preview {
+    NavigationStack {
+        PostCommentView(post: MockData.posts[0])
     }
 }

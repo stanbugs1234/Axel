@@ -35,7 +35,7 @@ struct ChatView: View {
                 }
                 
                 LazyVStack {
-                    //MARK: Messages
+                    //MARK: For Each Messages
                     ForEach( viewModel.messages) { message in
                         ChatMessageCell(message: message, user: user)
                     }
@@ -71,10 +71,8 @@ struct ChatView: View {
 }
 
 
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            ChatView(user: dev2.mockUser)
-        }
+#Preview {
+    NavigationStack {
+        ChatView(user: MockData.users[0])
     }
 }

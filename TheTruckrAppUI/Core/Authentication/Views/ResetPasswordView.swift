@@ -26,7 +26,7 @@ struct ResetPasswordView: View {
                     VStack(spacing: 8) {
                         //                        Image - Need to come up with an image
                         //Title
-                        Text("HAULR")
+                        Text("\(AppConstants.appNameUpperCase)")
                             .foregroundColor(.white)
                             .font(.largeTitle)
                         

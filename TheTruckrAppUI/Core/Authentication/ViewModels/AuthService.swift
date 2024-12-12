@@ -9,10 +9,9 @@ import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
-//import Foundation
-//import Firebase
-//import FirebaseFirestoreSwift
-//import FirebaseCore
+import Foundation
+import Firebase
+import FirebaseFirestoreSwift
 
 class AuthService: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
@@ -24,8 +23,7 @@ class AuthService: ObservableObject {
         loadCurrentUserData()
         print("DEBUG: AuthService user session id is \(userSession?.uid)")
     }
-    
-    
+
     //MARK: Login with Email
     @MainActor
     func login(withEmail email: String, password: String) async throws {
@@ -77,7 +75,7 @@ class AuthService: ObservableObject {
 //        }
 //    }
 
-    
+    //MARK: Sign Out
     func signOut() {
         do {
             try Auth.auth().signOut()
@@ -88,35 +86,37 @@ class AuthService: ObservableObject {
         }
     }
     
+    //MARK: Reset Password
     func resetPassword(email: String) async throws {
         do {
             let result: Void = try await Auth.auth().sendPasswordReset(withEmail: email)
         } catch {
             print("DEBUG: Failed to reset password with error \(error.localizedDescription)")
         }
-        
     }
     
     private func uploadUserData(email: String, fullname: String, id: String) async throws {
         guard let location = LocationManager.shared.userLocation else { return }
         
         let user = User(uid: id,
-            fullname: fullname,
+                        fullname: fullname,
                         email: email,
                         coordinates: GeoPoint(
                             latitude: location.latitude,
                             longitude: location.longitude),
                         accountType: .dispatcher,
-        profileImageUrl: "")
+                        profileImageUrl: "")
         guard let encodedUser = try? Firestore.Encoder().encode(user) else { return }
         try await Firestore.firestore().collection("users").document(id).setData(encodedUser)
     }
     
+    //MARK: Load Current User data
     private func loadCurrentUserData() {
         Task { try await
             UserService.shared.fetchCurrentUser()}
     }
     
+    //MARK: Upload Profile Image
     func uploadProfileImage(_ image: UIImage) {
         guard let uid = userSession?.uid else {return}
         

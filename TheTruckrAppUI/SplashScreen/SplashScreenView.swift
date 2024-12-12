@@ -68,7 +68,7 @@ struct SplashScreenView: View {
                     }
                     
                     
-                    Text("HAULR")
+                    Text("\(AppConstants.appNameUpperCase)")
                         .font(Font.custom("Helena-Bold", size: 40))
                         .fontWeight(.bold)
                         .foregroundColor(.themeGreen.opacity(0.60))

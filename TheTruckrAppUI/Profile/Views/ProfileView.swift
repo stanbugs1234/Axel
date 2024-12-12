@@ -24,30 +24,31 @@ struct ProfileView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading){
-            
-            headerView
-            
-            actionButtons
-            
-            userInfoDetails
-            
-            messageFilterBar
-            
-            messageView
-            
-            Spacer()
+        if UserService.shared.currentUser != nil {
+            VStack(alignment: .leading){
+                
+                headerView
+                
+                actionButtons
+                
+                userInfoDetails
+                
+                messageFilterBar
+                
+                messageView
+                
+                Spacer()
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .labelsHidden()
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .labelsHidden()
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            ProfileView( user: dev2.mockUser)
-        }
+//MARK: Preview
+#Preview {
+    NavigationStack {
+        ProfileView(user: MockData.users[0])
     }
 }
 
@@ -193,7 +194,7 @@ extension ProfileView {
         ScrollView {
             LazyVStack {
                 ForEach(viewModel.posts(forFilter: self.selectedFilter)) { post in
-                    MessageRowView(post: post, user: post.user!)
+                    PostRowView(post: post, user: post.user!)
                         .padding()
                 }
             }

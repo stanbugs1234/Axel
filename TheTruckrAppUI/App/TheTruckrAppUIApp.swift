@@ -24,7 +24,7 @@ struct TheTruckrAppUIApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @StateObject var homeViewModel = HomeViewModel()
-    @StateObject var tabViewModel = MainTabHomeViewModel()
+    @StateObject var tabViewModel = InboxViewModel()
 //    @StateObject var friendViewModel = FriendRequestViewModel()
 
     var body: some Scene {

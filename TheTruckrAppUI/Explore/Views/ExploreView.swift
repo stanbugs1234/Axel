@@ -17,7 +17,7 @@ struct ExploreView: View {
                 ScrollView {
                     SearchBarView(text: $viewModel.searchText)
                         .padding()
-                    LazyVStack {
+                    VStack {
                         ForEach(viewModel.searchableUsers) { user in
                             NavigationLink (value: user) {
                                 UserRowMessageView(user: user)
@@ -34,10 +34,9 @@ struct ExploreView: View {
     }
 }
 
-struct ExploreView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView{
-            ExploreView()
-        }
+//MARK: Preview
+#Preview {
+    NavigationStack {
+        ExploreView()
     }
 }

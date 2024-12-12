@@ -18,7 +18,9 @@ struct RatingService {
                     "personGivingReviewUid": uid,
                     "timestamp": Timestamp(date: Date())] as [String : Any]
         
-        FirestoreConstants.UserCollection.document(driverUid).collection("ratings")
+        FirestoreConstants.UserCollection
+            .document(driverUid)
+            .collection("ratings")
             .document()
             .setData(data) {error in
                 if let error = error {
@@ -28,21 +30,12 @@ struct RatingService {
                 }
                 completion(true)
             }
-        
-//        Firestore.firestore().collection("ratings")
-//            .document()
-//            .setData(data) {error in
-//                if let error = error {
-//                    print("DEBUG: Failed to upload Ratings with error: \(error.localizedDescription)")
-//                    completion(false)
-//                    return
-//                }
-//                completion(true)
-//            }
     }
     
     func fetchUserRatings(forUId uid: String, completion: @escaping ([Rating]) -> Void) {
-        FirestoreConstants.UserCollection.document(uid).collection("ratings")
+        FirestoreConstants.UserCollection
+            .document(uid)
+            .collection("ratings")
             .whereField("driverUid", isEqualTo: uid)
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }

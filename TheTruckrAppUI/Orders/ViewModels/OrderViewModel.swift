@@ -73,7 +73,7 @@ class OrderViewModel: ObservableObject {
     }
     
     func fetchUserOrders(forUid uid: String, completion: @escaping ([Order]) -> Void) {
-        Firestore.firestore().collection("orders")
+        FirestoreConstants.OrderRequestCollection
             .whereField("uid", isEqualTo: uid)
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else {return}

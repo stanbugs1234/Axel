@@ -10,5 +10,6 @@ import CoreLocation
 struct UberLocation: Identifiable {
     let id = NSUUID().uuidString
     let title: String
+    let subtitle: String
     let coordinate: CLLocationCoordinate2D
 }

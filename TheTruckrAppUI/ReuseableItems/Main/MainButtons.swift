@@ -56,11 +56,10 @@ struct MainButtons: View {
                     .font(size.fontSize)
                     .fontWeight(.semibold)
             }
-            .frame(width: 85, height: 85, alignment: .center)
+            .frame(width: 100, height: 100, alignment: .center)
             .foregroundColor(.themeGreen)
             .background(Color.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-//            .clipShape(Circle())
             .shadow(color: .primary.opacity(0.3), radius: 10, x: 0, y: 5)
         }
     }
@@ -68,6 +67,6 @@ struct MainButtons: View {
 
 struct MainButtons_Previews: PreviewProvider {
     static var previews: some View {
-        MainButtons(viewModel: .scheduleTrucks, size: .xSmall)
+        MainButtons(viewModel: .scheduleTrucks, size: .small)
     }
 }

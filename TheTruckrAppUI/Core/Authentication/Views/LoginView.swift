@@ -21,8 +21,9 @@ struct LoginView: View {
                     //MARK: Login & Image
                     VStack(spacing: 8) {
 //                        Image - Need to come up with an image
-                        //Title
-                        Text("HAULR")
+                        //MARK: Title
+                        
+                        Text("\(AppConstants.appNameUpperCase)")
                             .foregroundColor(.white)
                             .font(.largeTitle)
                         
@@ -36,6 +37,7 @@ struct LoginView: View {
                         CustomInputField(text: $viewModel.email,
                                          title: "Email Address",
                                          placeholder: "name@example.com")
+                        .textInputAutocapitalization(.never)
                         .keyboardType(.emailAddress)
                         
                         

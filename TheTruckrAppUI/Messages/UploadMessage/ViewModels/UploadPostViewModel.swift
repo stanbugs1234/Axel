@@ -10,7 +10,7 @@ import Firebase
 class UploadPostViewModel: ObservableObject {
     @Published var didUploadPost = false
     @Published var didUploadComment = false
-    let service = PostService()
+    let service = PostService.shared
     
     func uploadPost(withCaption caption: String) {
         service.uploadPost(caption: caption) { success in

@@ -10,6 +10,7 @@ import Firebase
 class UploadRatingViewModel: ObservableObject {
     @Published var didUploadRating = false
     @Published var rating = 0
+    @Published var title = "No Reviews"
     
     let service = RatingService()
     

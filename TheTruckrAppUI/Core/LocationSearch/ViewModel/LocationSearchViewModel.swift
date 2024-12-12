@@ -53,6 +53,7 @@ class LocationSearchViewModel: NSObject, ObservableObject{
             switch config {
             case .ride:
                 self.selectedUberLocation = UberLocation(title: localSearch.title,
+                                                         subtitle: localSearch.subtitle,
                                                          coordinate: coordinate)
             case .saveLocation(let viewModel):
                 guard let uid = Auth.auth().currentUser?.uid else { return }

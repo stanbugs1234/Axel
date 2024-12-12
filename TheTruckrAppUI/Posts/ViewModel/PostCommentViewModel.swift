@@ -18,8 +18,6 @@ class PostCommentViewModel:  ObservableObject {
     @Published var postCommentCount = Int()
     private var cancellables = Set<AnyCancellable>()
     
-    private var service = PostService.shared
-    let userService = UserService.shared
     
     init(post: Post) {
         self.post = post
@@ -30,7 +28,7 @@ class PostCommentViewModel:  ObservableObject {
     }
     
     func fetchPostComments(postId: String, completion: @escaping([PostComment]) -> Void) {
-        service.fetchPostComments(postId: post.id ?? "") { postComments in
+        PostService.shared.fetchPostComments(postId: post.id ?? "") { postComments in
             self.postComments = postComments
         }
     }

@@ -53,18 +53,18 @@ struct DriverRatingView: View {
                         image(for: number)
                             .resizable()
                             .foregroundStyle(number > uploadRatingViewModel.rating ? offColor : onColor)
-                            .frame(width: 30, height: 30)
+                            .frame(width: 20, height: 20)
                             .padding(.horizontal, 10)
                     }
                 }
             }
             .buttonStyle(.plain)
-            .padding(.top, 18)
+            .padding(.top, 5)
             
 //            //MARK: Rating Title
 //            HStack {
-//                Text(viewModel!.title)
-//                    .font(.title3)
+//                Text(viewModel?.title)
+//                    .font(.title2)
 //                    .fontWeight(.semibold)
 //            }
 //            .padding()
@@ -80,7 +80,7 @@ struct DriverRatingView: View {
                 }
                 .buttonStyle(.borderedProminent)
             }
-            .padding(.top, 35)
+            .padding(.top, 25)
         }
         .padding()
     }

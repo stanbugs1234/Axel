@@ -10,14 +10,14 @@ import SwiftUI
 struct FeedView: View {
     @State private var showNewMessageView = false
     @ObservedObject var viewModel = FeedViewModel()
-    @ObservedObject var friendViewModel: FriendRequestViewModel
     
     var body: some View {
+        if let user = UserService.shared.currentUser {
             ZStack(alignment: .bottomTrailing) {
                 ScrollView {
-                    LazyVStack {
+                    VStack {
                         ForEach(viewModel.posts) { post in
-                            MessageRowView(post: post, user: post.user!)
+                            PostRowView(post: post, user: user)
                         }
                         .padding(.bottom, 7)
                         .padding(.trailing)
@@ -33,7 +33,6 @@ struct FeedView: View {
                     showNewMessageView.toggle()
                 } label: {
                     ZStack {
-                        
                         Image(systemName: "square.and.pencil.circle.fill")
                             .resizable()
                             .renderingMode(.template)
@@ -44,20 +43,20 @@ struct FeedView: View {
                 }
                 .foregroundColor(.themeGreen)
                 .clipShape(Circle())
-                .padding() 
+                .padding()
                 .fullScreenCover(isPresented: $showNewMessageView, onDismiss: viewModel.fetchPosts) {
                     NewMessageView()
                 }
             }
             .navigationTitle("Posts")
-//            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
-struct FeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            FeedView(friendViewModel: FriendRequestViewModel())
-        }
+//MARK: Preview
+#Preview {
+    NavigationStack {
+        FeedView()
     }
 }

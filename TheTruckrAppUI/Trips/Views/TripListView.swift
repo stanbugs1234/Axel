@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 struct TripListView: View {
-    @ObservedObject var viewModel = TripsViewModel()
+    @ObservedObject var viewModel = ReservationViewModel()
     var body: some View {
         VStack {
             SearchBarView(text: $viewModel.searchText)

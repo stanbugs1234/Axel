@@ -21,6 +21,7 @@ struct ContentView: View {
     }
 }
 
+//MARK: Preview
 #Preview {
     NavigationStack {
         ContentView()

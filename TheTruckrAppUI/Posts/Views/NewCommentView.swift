@@ -10,7 +10,6 @@ import Kingfisher
 
 struct NewCommentView: View {
     @State private var caption = ""
-    @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel = UploadPostViewModel()
     
@@ -56,7 +55,7 @@ struct NewCommentView: View {
                 
                 //MARK: Post to Comment On
                 HStack {
-                    MessageRowView(post: post, user: post.user!)
+                    PostRowView(post: post, user: post.user!)
                         .padding(.bottom)
                 }
                 
@@ -85,7 +84,6 @@ struct NewCommentView_Previews: PreviewProvider {
     static var previews: some View{
         NavigationView{
             NewCommentView(post: dev2.mockPost)
-                .environmentObject(AuthViewModel())
         }
     }
 }

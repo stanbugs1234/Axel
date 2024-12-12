@@ -33,8 +33,9 @@ struct UserRowMessageView: View {
     }
 }
 
-struct UserRowMessageView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserRowMessageView(user: dev2.mockUser)
+//MARK: Preview
+#Preview {
+    NavigationStack {
+        UserRowMessageView(user: MockData.users[0])
     }
 }

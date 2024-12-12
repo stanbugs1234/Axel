@@ -13,7 +13,7 @@ import FirebaseFirestoreSwift
 
 struct TripService {
     func fetchJobs(completion: @escaping([Trip]) -> Void) {
-        Firestore.firestore().collection("trips")
+        FirestoreConstants.TripCollection
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else {return}
                 
@@ -21,6 +21,13 @@ struct TripService {
                 print("DEBUG: Fetching Trips")
                 completion(trips)
             }
+    }
+    
+    func calculateCharge(numberOfTrucks: Int, fee: Int) -> Double {
+        let chargeDouble = Double(numberOfTrucks * fee)
+        let chargeCCFee = chargeDouble * 0.03 + chargeDouble
+        return chargeCCFee
+        
     }
 }
 
