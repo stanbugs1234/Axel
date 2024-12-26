@@ -30,6 +30,38 @@ struct MockData {
         
     ]
     
+    //MARK: Vendor
+    static let vendors: [Vendor] = [
+        .init(vendorId: "zGomuyoIPcuzQbs3VuXc",
+              vendorFullName: "Three C's Properties",
+              vendorCompanyId: "2PhNlJ7hUcvco974ggXW",
+              vendorAddressName: "141 I- 310 Service Rd, St Rose, LA 70087",
+              vendorState: .activeVendor,
+              uid: "dn36JHwwu5YerAdctVuW9Insu372",
+              timestamp: Timestamp(date: Date()),
+              vendorProfileImageUrl: "https://firebasestorage.googleapis.com/v0/b/thetruckrapp.appspot.com/o/ThreeCsLogo.jpeg?alt=media&token=4819b9d9-e9d2-4c1c-b408-28edbe36c911",
+              likes: 0),
+        
+        .init(vendorId: "zGomuyoIPcuzQbs3VuXc",
+              vendorFullName: "Three C's Properties",
+              vendorCompanyId: "",
+              vendorAddressName: "",
+              vendorState: .activeVendor,
+              uid: "dn36JHwwu5YerAdctVuW9Insu372",
+              timestamp: Timestamp(date: Date()),
+              vendorProfileImageUrl: "",
+              likes: 0),
+        .init(vendorId: "zGomuyoIPcuzQbs3VuXc",
+              vendorFullName: "Otwell Trucking Services",
+              vendorCompanyId: "",
+              vendorAddressName: "10387 River Rd, Ama, LA 70031",
+              vendorState: .activeVendor,
+              uid: "dn36JHwwu5YerAdctVuW9Insu372",
+              timestamp: Timestamp(date: Date()),
+              vendorProfileImageUrl: "https://firebasestorage.googleapis.com/v0/b/thetruckrapp.appspot.com/o/Otwells-logo.png?alt=media&token=65802899-085e-41e7-adcc-164d29e205ee",
+              likes: 0)
+    ]
+    
     //MARK: Mock Posts
     static let posts: [Post] = [
         .init(

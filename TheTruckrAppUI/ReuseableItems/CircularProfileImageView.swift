@@ -48,7 +48,7 @@ enum ProfileImageSize {
 struct CircularProfileImageView: View {
     var user: User?
     let size: ProfileImageSize
-
+    
     
     var body: some View {
         let abbreviatedName = initials(from: user?.fullname ?? "") ?? ""
@@ -59,32 +59,33 @@ struct CircularProfileImageView: View {
                 .frame(width: size.dimension, height: size.dimension)
                 .clipShape(Circle())
         } else {
-        if user?.profileImageUrl != "" {
-            KFImage(URL(string: user?.profileImageUrl ?? ""))
-                .resizable()
-                .scaledToFill()
-                .frame(width: size.dimension, height: size.dimension)
-                .clipShape(Circle())
-        } else {
-            ZStack {
-                Circle()
+            if user?.profileImageUrl != "" {
+                KFImage(URL(string: user?.profileImageUrl ?? ""))
+                    .resizable()
+                    .scaledToFill()
                     .frame(width: size.dimension, height: size.dimension)
-                    .foregroundColor(.gray)
-                
-                Text(abbreviatedName)
-                    .font(size.fontSize)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .clipShape(Circle())
+            } else {
+                ZStack {
+                    Circle()
+                        .frame(width: size.dimension, height: size.dimension)
+                        .foregroundColor(.gray)
+                    
+                    Text(abbreviatedName)
+                        .font(size.fontSize)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                }
+                .clipShape(Circle())
             }
-            .clipShape(Circle())
-        }
         }
     }
 }
 
-
-struct CircularProfileImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        CircularProfileImageView(user: dev2.mockUser, size: .xxxLarge)
+#Preview {
+    NavigationStack {
+        CircularProfileImageView(user: MockData.users[0], size: .xxxLarge)
+            .preferredColorScheme(.dark)
     }
 }
+

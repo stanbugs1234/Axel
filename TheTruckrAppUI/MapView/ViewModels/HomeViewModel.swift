@@ -10,6 +10,7 @@ import Firebase
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 import Combine
+import CoreLocation
 import MapKit
 import FirebaseStorage
 
@@ -23,10 +24,12 @@ class HomeViewModel: NSObject, ObservableObject {
     private var currentUser: User?
     @Published var selectedUberLocation: UberLocation?
     @Published var searchText = ""
+    @Published var userAddress: String?
+    @Published var formattedUserAddress: String?
     
     //Location Search Properties
     @Published var results = [MKLocalSearchCompletion]()
-
+    
     @Published var pickupTime: String?
     @Published var dropOffTime: String?
     private let searchCompleter = MKLocalSearchCompleter()
@@ -54,7 +57,7 @@ class HomeViewModel: NSObject, ObservableObject {
     }
     
     //MARK: - LifeCycle
-
+    
     override init() {
         super.init()
         fetchUser()
@@ -63,16 +66,19 @@ class HomeViewModel: NSObject, ObservableObject {
     }
     
     //MARK: USER API
-
-    func fetchUser() {       
+    
+    func fetchUser() {
         service.$currentUser
             .sink { user in
                 self.currentUser = user
+                self.getUserLocationAddress()
+                
                 guard let user = user else {return}
                 
                 if user.accountType == .dispatcher {
                     self.fetchDrivers()
                     self.addTripObserverForPassenger()
+                    
                 } else {
                     self.fetchTrips()
                 }
@@ -92,13 +98,13 @@ extension HomeViewModel {
             .whereField("dispatcherUid", isEqualTo: currentUser.id)
             .addSnapshotListener { snapshot, _ in
                 guard let change = snapshot?.documentChanges.first,
-                change.type == .added
-                || change.type == .modified else {return}
+                      change.type == .added
+                        || change.type == .modified else {return}
                 
                 guard let trip = try? change.document.data(as: Trip.self) else {return}
                 self.trip = trip
                 print("DEBUG: Updated trip state is \(trip.state)")
-        }
+            }
     }
     
     func fetchDrivers() {
@@ -126,7 +132,7 @@ extension HomeViewModel {
         getPlacemark(forLocation: userLocation) { placemark, error in
             guard let placemark = placemark else {return}
             
-//            print("DEBUG: Placemark for user location is \(String(describing: placemark.name))")
+            //            print("DEBUG: Placemark for user location is \(String(describing: placemark.name))")
             
             let tripCost = self.computeRidePrice(forType: .triaxle)
             
@@ -149,9 +155,10 @@ extension HomeViewModel {
             )
             
             guard let encodedUTrip = try? Firestore.Encoder().encode(trip) else { return }
-            Firestore.firestore().collection("trips").document().setData(encodedUTrip) { _ in
-                print("DEBUG: Did upload trip to firestore")
-            }
+            Firestore.firestore().collection("trips").document()
+                .setData(encodedUTrip) { _ in
+                    print("DEBUG: Did upload trip to firestore")
+                }
         }
     }
 }
@@ -205,6 +212,25 @@ extension HomeViewModel {
 
 extension HomeViewModel {
     
+    //MARK: Stan Attempt to Get UserLocation Placemark
+    func getUserLocationAddress() {
+        self.userLocation = LocationManager.shared.userLocation
+        let userLocation = CLLocation(latitude: self.userLocation?.latitude ?? 0.0,
+                                      longitude: self.userLocation?.longitude ?? 0.0)
+        
+        //Get Placemark
+        getPlacemark(forLocation: userLocation) { placemark, error in
+            guard let placemark = placemark else {return}
+            
+            
+            //Convert Placemark to String
+            let userAddress = self.addressFromPlacemark(placemark)
+            self.userAddress = userAddress
+            
+        }
+    }
+    
+    
     func addressFromPlacemark(_ placemark: CLPlacemark) -> String {
         var result = ""
         
@@ -219,7 +245,7 @@ extension HomeViewModel {
         if let subadministrativeArea = placemark.subAdministrativeArea {
             result += ", \(subadministrativeArea)"
         }
-            
+        
         return result
     }
     
@@ -383,5 +409,7 @@ extension HomeViewModel {
         if hour < 18 { return "Good afternoon, " }
         return "Good evening, "
     }
+    
+
 }
 

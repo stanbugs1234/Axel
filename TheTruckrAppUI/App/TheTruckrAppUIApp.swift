@@ -25,7 +25,7 @@ struct TheTruckrAppUIApp: App {
     
     @StateObject var homeViewModel = HomeViewModel()
     @StateObject var tabViewModel = InboxViewModel()
-//    @StateObject var friendViewModel = FriendRequestViewModel()
+    @StateObject var updatedHomeViewModel = UpdatedHomeViewModel()
 
     var body: some Scene {
         
@@ -33,7 +33,7 @@ struct TheTruckrAppUIApp: App {
             ContentView()
                 .environmentObject(homeViewModel)
                 .environmentObject(tabViewModel)
-//                .environmentObject(friendViewModel)
+                .environmentObject(updatedHomeViewModel)
         }
     }
 }

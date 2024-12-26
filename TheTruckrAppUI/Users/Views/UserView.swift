@@ -14,7 +14,7 @@ struct UserView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            SearchBarView(text: $exploreViewModel.searchText)
+            SearchBarView(text: $exploreViewModel.searchText, placementString: "Search...")
                 .padding()
             ScrollView {
                 LazyVStack {

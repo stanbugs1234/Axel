@@ -16,7 +16,7 @@ struct JobListView: View {
     var body: some View {
             VStack{
                 //MARK: Search Bar
-                SearchBarView(text: $viewModel.searchText)
+                SearchBarView(text: $viewModel.searchText, placementString: "Search Jobs...")
                     .padding()
                 
                 //MARK: List View

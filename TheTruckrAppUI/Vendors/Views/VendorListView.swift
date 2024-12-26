@@ -19,7 +19,7 @@ struct VendorListView: View {
         VStack {
             VStack {
                 //MARK: Search Bar
-                SearchBarView(text: $viewModel.searchText)
+                SearchBarView(text: $viewModel.searchText, placementString: "Search...")
                     .padding()
                 if viewModel.searchableVendors.count != 0 {
                     //MARK: List of Vendors

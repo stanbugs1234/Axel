@@ -89,7 +89,8 @@ class DeveloperPreview {
                             vendorAddressName: "2611 Enginerers Rd, Belle Chasse, LA 700037",
                             vendorState: vendorState.activeVendor,
                             uid: "Sldkfsldkfn",
-                            timestamp: Timestamp(date: Date())
+                            timestamp: Timestamp(date: Date()), vendorProfileImageUrl: "",
+                            likes: 0
     )
     
     

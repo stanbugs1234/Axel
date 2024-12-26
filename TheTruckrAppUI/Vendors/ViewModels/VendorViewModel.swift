@@ -37,8 +37,12 @@ class VendorViewModel: ObservableObject {
         }
     }
 
+    
+    
+    
+    //MARK: Fetch User Vendors
     func fetchUserVendors(forUid uid: String, completion: @escaping([Vendor]) -> Void) {
-        Firestore.firestore().collection("vendors")
+        FirestoreConstants.VendorCollection
             .whereField("uid", isEqualTo: uid)
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else {return}

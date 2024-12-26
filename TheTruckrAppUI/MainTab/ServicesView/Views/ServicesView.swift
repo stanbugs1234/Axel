@@ -8,11 +8,30 @@
 import SwiftUI
 
 struct ServicesView: View {
+    @EnvironmentObject var homeViewModel: HomeViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView(showsIndicators: false) {
+            HStack {
+                Text("Go Anywhere, get anything")
+                Spacer()
+            }
+                
+                HStack {
+                    //MARK: Buttons - Reserve
+                    ForEach(ServicesEnum.allCases){ option in
+                        ServicesCardRowView(viewModel: option)
+                    }
+                }
+        }
+        .padding()
+        .navigationTitle(Text("Services"))
     }
 }
 
 #Preview {
-    ServicesView()
+    NavigationStack {
+        ServicesView()
+            .environmentObject(HomeViewModel())
+    }
 }

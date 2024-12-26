@@ -10,7 +10,14 @@ import Kingfisher
 
 struct FeaturedCardView: View {
     @EnvironmentObject var updatedHomeViewModel: UpdatedHomeViewModel
+    @ObservedObject var vendorViewModel: VendorRowViewModel
+    
     let vendor: Vendor
+    
+    init(vendor: Vendor) {
+        self.vendorViewModel = VendorRowViewModel(vendor: vendor)
+        self.vendor = vendor
+    }
     
     var body: some View {
         let abbreviatedName = initials(from: vendor.vendorFullName) ?? ""
@@ -53,13 +60,13 @@ struct FeaturedCardView: View {
                     //MARK: Like Button
                     //TODO: Add ViewModel & Add Like Functionality
                     Button {
-                        
+                        vendorViewModel.vendor.didLike ?? false ?
+                        vendorViewModel.unlikeVendor() :
+                        vendorViewModel.likeVendor()
                     } label: {
-                        Image(systemName: "heart")
-                            .resizable()
-                            .frame(width: ButtonSize.xSmall.iconSize,
-                                   height: ButtonSize.xSmall.iconSize)
-                            .padding(.leading, -5)
+                        Image(systemName: vendorViewModel.vendor.didLike ?? false ? "heart.fill" : "heart")
+                            .font(.subheadline)
+                            .foregroundColor(vendorViewModel.vendor.didLike ?? false ? .red : .gray)
                     }
                 }
                 

@@ -17,7 +17,7 @@ struct CustomerListView: View {
     var body: some View {
         VStack {
             ScrollView {
-                SearchBarView(text: $viewModel.searchText)
+                SearchBarView(text: $viewModel.searchText, placementString: "Search Customers...")
                     .padding(.horizontal)
                     .padding(.top)
                 

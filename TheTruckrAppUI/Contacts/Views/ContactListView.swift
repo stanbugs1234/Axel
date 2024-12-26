@@ -13,7 +13,7 @@ struct ContactListView: View {
     
     var body: some View {
             VStack {
-                SearchBarView(text: $viewModel.searchText)
+                SearchBarView(text: $viewModel.searchText, placementString: "Search Vendors...")
                     .padding()
                 
                 Spacer()

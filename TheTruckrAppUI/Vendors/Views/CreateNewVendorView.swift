@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 struct CreateNewVendorView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel = UploadVendorViewModel()
+//    @ObservedObject var viewModel = UploadVendorViewModel()
     
     @State private var vendorFullName = ""
     @State private var vendorAddress = ""
@@ -41,17 +41,17 @@ struct CreateNewVendorView: View {
                     
                     Spacer()
                     
-                    Button {  viewModel.uploadVendor(vendorFullName: vendorFullName,
-                                                     vendorCompanyId:vendorIdentification,
-                                                     vendorAddressName:vendorAddress)} label: {
-                        Text("Save")
-                            .bold()
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
-                            .background(.black)
-                            .foregroundColor(.white)
-                            .clipShape(Capsule())
-                    }
+//                    Button {  viewModel.uploadVendor(vendorFullName: vendorFullName,
+//                                                     vendorCompanyId:vendorIdentification,
+//                                                     vendorAddressName:vendorAddress)} label: {
+//                        Text("Save")
+//                            .bold()
+//                            .padding(.horizontal)
+//                            .padding(.vertical, 8)
+//                            .background(.black)
+//                            .foregroundColor(.white)
+//                            .clipShape(Capsule())
+//                    }
                 }
                 .padding()
                 
@@ -83,11 +83,11 @@ struct CreateNewVendorView: View {
 //                }
                 
             }
-            .onReceive(viewModel.$didUploadVendor) { success in
-                if success {
-                    presentationMode.wrappedValue.dismiss()
-                }
-            }
+//            .onReceive(viewModel.$didUploadVendor) { success in
+//                if success {
+//                    presentationMode.wrappedValue.dismiss()
+//                }
+//            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {

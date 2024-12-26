@@ -52,7 +52,7 @@ struct TripSelectActiveCustomerView: View {
                 //                    }
                 //                }
                 
-                SearchBarView(text: $customerViewModel.searchText)
+                SearchBarView(text: $customerViewModel.searchText, placementString: "Search...")
                     .padding()
                 
                 List {

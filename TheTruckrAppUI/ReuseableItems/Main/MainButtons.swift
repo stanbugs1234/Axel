@@ -7,39 +7,6 @@
 
 import SwiftUI
 
-enum ButtonSize {
-    case xxSmall
-    case xSmall
-    case small
-    case medium
-    case large
-    case xLarge
-    case xxLarge
-    
-    var dimension: CGFloat {
-        switch self {
-        case .xxSmall: return 28
-        case .xSmall: return 32
-        case .small: return 50
-        case .medium: return 56
-        case .large: return 64
-        case .xLarge: return 80
-        case .xxLarge: return 120
-        }
-    }
-    var fontSize: Font {
-        switch self {
-        case .xxSmall: return .caption2
-        case .xSmall: return .footnote
-        case .small: return .subheadline
-        case .medium: return .title3
-        case .large: return .title2
-        case .xLarge: return .title
-        case .xxLarge: return .custom("xxLarge", size: 45)
-        }
-    }
-}
-
 struct MainButtons: View {
     var viewModel: MainHomeTabViewModel
     let size: ButtonSize
@@ -49,7 +16,7 @@ struct MainButtons: View {
             VStack {
                 Image(systemName: viewModel.imageName)
                     .resizable()
-                    .frame(width: size.dimension, height: size.dimension)
+                    .frame(width: size.width, height: size.height)
                     .scaledToFill()
 
                 Text(viewModel.title)

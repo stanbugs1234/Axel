@@ -10,6 +10,7 @@ import Firebase
 
 struct FirestoreConstants {
     static let UserCollection = Firestore.firestore().collection("users")
+    static let VendorCollection = Firestore.firestore().collection("vendors")
     static let PostCollection = Firestore.firestore().collection("posts")
     static let PostCommentsCollection = Firestore.firestore().collection("post_comments")
     static let MessagesCollection = Firestore.firestore().collection("messages")

@@ -12,7 +12,7 @@ struct TripListView: View {
     @ObservedObject var viewModel = ReservationViewModel()
     var body: some View {
         VStack {
-            SearchBarView(text: $viewModel.searchText)
+            SearchBarView(text: $viewModel.searchText, placementString: "Search Trips")
                 .padding()
             
             ScrollView {

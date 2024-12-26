@@ -8,11 +8,31 @@
 import SwiftUI
 
 struct ServicesCardRowView: View {
+    let viewModel: ServicesEnum
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            HStack {
+                Spacer()
+                
+                Image(viewModel.imageName)
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .font(.system(size: 16))
+            }
+            Text(viewModel.title)
+                .font(.subheadline)
+                .foregroundColor(.backgroundColor)
+        }
+        .padding()
+
+        .background(Color(.systemGray6))
+        .frame(width: SizeConstants.cardHalfWidth, height: SizeConstants.cardTileHeight)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        
     }
 }
 
 #Preview {
-    ServicesCardRowView()
+    ServicesCardRowView(viewModel: ServicesEnum.orderNow)
 }

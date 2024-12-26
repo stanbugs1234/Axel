@@ -15,7 +15,7 @@ struct ExploreView: View {
     var body: some View {
             VStack(alignment: .leading) {
                 ScrollView {
-                    SearchBarView(text: $viewModel.searchText)
+                    SearchBarView(text: $viewModel.searchText, placementString: "Search Friends...")
                         .padding()
                     VStack {
                         ForEach(viewModel.searchableUsers) { user in

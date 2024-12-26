@@ -151,7 +151,7 @@ struct SideMenuView: View {
                 .navigationDestination(for: SideMenuOptionViewModel.self) { viewModel in
                     switch viewModel {
                     case .home:
-                        MainHomeView()
+                        UpdatedHomeView()
                     case .trips:
                         Text("Trips")
                     case .tickets:

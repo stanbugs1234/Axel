@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SuggestionCardView: View {
     @EnvironmentObject private var updatedHomeViewModel: UpdatedHomeViewModel
-    let viewModel: SuggestionViewModel
+    let viewModel: SuggestionViewEnums
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -48,6 +48,6 @@ struct SuggestionCardView: View {
 }
 
 #Preview {
-    SuggestionCardView(viewModel: SuggestionViewModel.truck)
+    SuggestionCardView(viewModel: SuggestionViewEnums.truck)
         .environmentObject(UpdatedHomeViewModel())
 }

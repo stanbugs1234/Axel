@@ -8,11 +8,43 @@
 import SwiftUI
 
 struct DeliveryNowHomeView: View {
+    @State private var searchText = ""
+    @State private var showTimePicker = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            HStack {
+                ZStack {
+                    HStack {
+                        SearchBarView(text: $searchText, placementString: "Where to?")
+                            .frame(height: 50)
+                        
+                        Spacer()
+                        
+                        Button {
+                            showTimePicker.toggle()
+                        } label: {
+                            HStack {
+                                Image(systemName: "clock.fill")
+                                Text("Now")
+                                Image(systemName: "chevron.down")
+                            }
+                            .foregroundStyle(.primary)
+                        }
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 30, style: .circular))
+                    .buttonStyle(BorderedProminentButtonStyle())
+                    .tint(.background)
+                }
+            }
+            
+        }
     }
 }
 
 #Preview {
-    DeliveryNowHomeView()
+    NavigationStack {
+        DeliveryNowHomeView()
+            .preferredColorScheme(.dark)
+    }
 }

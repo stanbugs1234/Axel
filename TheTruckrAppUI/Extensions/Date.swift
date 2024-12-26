@@ -14,8 +14,23 @@ extension Date {
                 .year()
                 .month()
                 .day()
-//                .hour()
-//                .minute()
+            //                .hour()
+            //                .minute()
+        )
+    }
+    
+    var dayDisplayFormat: String {
+        self.formatted(
+            .dateTime
+                .weekday(.abbreviated)
+        )
+    }
+    
+    var monthAndDayFormat: String {
+        self.formatted(
+            .dateTime
+                .month()
+                .day()
         )
     }
     
@@ -37,7 +52,7 @@ extension Date {
     private var timeFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
-//        formatter.dateFormat = "HH:mm"
+        //        formatter.dateFormat = "HH:mm"
         
         return formatter
     }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UpdatedHomeView: View {
     @State private var searchText = ""
+    @State private var path = NavigationPath()
     @State private var showAddressPicker = false
     @State private var showDeliveryType = false
     @EnvironmentObject var viewModel: HomeViewModel

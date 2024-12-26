@@ -9,8 +9,30 @@ import SwiftUI
 
 struct RecentSearchView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+        VStack {
+            HStack {
+                Text("Recent")
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+                Spacer()
+            }
+            .padding(.vertical)
+            
+            HStack {
+                Image(systemName: "clock")
+                
+                VStack(alignment: .leading) {
+                    Text("Stone")
+                        .fontWeight(.semibold)
+                    
+                    Divider()
+                }
+                .padding(.horizontal)
+                
+                Spacer()
+            }
+            .padding(.vertical)
+        }    }
 }
 
 #Preview {

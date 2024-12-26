@@ -51,7 +51,7 @@ struct SelectJobListTripView: View {
 //                    }
 //                }
                 
-                SearchBarView(text: $viewModel.searchText)
+                SearchBarView(text: $viewModel.searchText, placementString: "Search...")
                     .padding()
                 
                 List {

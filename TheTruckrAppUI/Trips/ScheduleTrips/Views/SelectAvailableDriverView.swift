@@ -37,7 +37,7 @@ struct SelectAvailableDriverView: View {
                     Spacer()
                     
                 }
-                SearchBarView(text: $exploreViewModel.searchText)
+                SearchBarView(text: $exploreViewModel.searchText, placementString: "Search....")
                     .padding()
                 ScrollView {
                     LazyVStack {

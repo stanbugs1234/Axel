@@ -19,6 +19,7 @@ struct Product: Identifiable, Codable, Hashable {
     let productFullName: String
     let companyName: String
     let productCategory: String
+    
 
     
     var id: String {

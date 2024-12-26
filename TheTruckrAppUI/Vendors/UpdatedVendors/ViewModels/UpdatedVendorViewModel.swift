@@ -6,3 +6,14 @@
 //
 
 import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+import Firebase
+
+class UpdatedVendorViewModel: ObservableObject {
+    @Published var vendors = [Vendor]()
+    
+    init() {
+        
+    }
+}

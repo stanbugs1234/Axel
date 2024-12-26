@@ -23,7 +23,7 @@ struct SuggestionView: View {
             //MARK: Horizontal Scroll View
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(SuggestionViewModel.allCases) { viewModel in
+                    ForEach(SuggestionViewEnums.allCases) { viewModel in
                         NavigationLink {
                             Text("\(viewModel.title)")
                         } label: {

@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct SearchHeaderView: View {
+    @EnvironmentObject var viewModel: UpdatedHomeViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        //MARK: Search Bar
+        SearchBarView(text: $viewModel.searchText, placementString: "Search \(AppConstants.appName)")
+            
+
     }
 }
 
 #Preview {
     SearchHeaderView()
+        .environmentObject(UpdatedHomeViewModel())
 }

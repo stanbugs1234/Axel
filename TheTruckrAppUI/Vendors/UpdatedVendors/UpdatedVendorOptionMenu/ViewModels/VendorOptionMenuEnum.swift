@@ -13,6 +13,7 @@ enum VendorOptionMenuEnum: Int, CaseIterable, Hashable, Identifiable, Codable {
     case addFavorites
     case vendorInfo
     
+    
     var title: String {
         switch self {
         case .groupOrder: return "Start group order"

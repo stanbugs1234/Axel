@@ -11,6 +11,8 @@ import Kingfisher
 struct MainTabView: View {
     @ObservedObject var friendViewModel: FriendRequestViewModel
     @StateObject var viewModel = InboxViewModel()
+    @EnvironmentObject var homeViewModel: HomeViewModel
+    @EnvironmentObject var updatedHomeViewModel: UpdatedHomeViewModel
     
     @State private var selectedIndex = 0
     @State private var showMenu = false
@@ -25,7 +27,7 @@ struct MainTabView: View {
             //MARK: Home Screen
             TabView(selection: $selectedIndex) {
                 NavigationStack {
-                    MainHomeView()
+                    UpdatedHomeView()
                         .onTapGesture {
                             self.selectedIndex = 0
                         }
@@ -37,67 +39,82 @@ struct MainTabView: View {
                     }
                 }.tag(0)
                 
-                //MARK: Friends Screen
+                //MARK: Services View
                 NavigationStack {
-                    ExploreView()
-                    //                        UserView()
+                    ServicesView()
                         .onTapGesture {
                             self.selectedIndex = 1
                         }
                 }
                 .tabItem {
                     VStack {
-                        Image(systemName: "person.2")
-                        Text("Friends")
+                        Image(systemName: "circle.grid.3x3.fill")
+                        Text("Services")
                     }
                 }.tag(1)
                 
-                //MARK: Inbox View
+                //MARK: Activity View
                 NavigationStack {
-                    InboxView()
+                    ActivityView()
                         .onTapGesture {
                             self.selectedIndex = 2
                         }
                 }
                 .tabItem {
                     VStack {
-                        Image(systemName: "bubble.left.and.text.bubble.right.fill")
-                        Text("Chats")
+                        Image(systemName: "wallet.pass.fill")
+                        Text("Activity")
                     }
                 }.tag(2)
                 
-                //MARK: PostView
-                NavigationStack{
-                    MessagesView()
-                        .onTapGesture {
-                            self.selectedIndex = 3
-                        }
-                }
                 
-                .tabItem {
-                    VStack {
-                        Image(systemName: "envelope")
-                        Text("Posts")
-                    }
-                }.tag(3)
+                
+                //                //MARK: Inbox View
+                //                NavigationStack {
+                //                    InboxView()
+                //                        .onTapGesture {
+                //                            self.selectedIndex = 2
+                //                        }
+                //                }
+                //                .tabItem {
+                //                    VStack {
+                //                        Image(systemName: "bubble.left.and.text.bubble.right.fill")
+                //                        Text("Chats")
+                //                    }
+                //                }.tag(2)
+                
+                //MARK: PostView
+//                NavigationStack{
+//                    MessagesView()
+//                        .onTapGesture {
+//                            self.selectedIndex = 3
+//                        }
+//                }
+//                
+//                .tabItem {
+//                    VStack {
+//                        Image(systemName: "envelope")
+//                        Text("Posts")
+//                    }
+//                }.tag(3)
                 
                 //MARK: Notification
-                NavigationStack {
-                    NotificationView(friendViewModel: FriendRequestViewModel())
-                        .onTapGesture {
-                            self.selectedIndex = 4
-                        }
-                }
-                .tabItem {
-                    VStack {
-                        if friendViewModel.friends.count == 0 {
-                            Image(systemName: "bell")
-                        } else {
-                            Image(systemName: "bell.badge")
-                        }
-                        Text("Notifications")
-                    }
-                }.tag(4)
+//                NavigationStack {
+//                    NotificationView(friendViewModel: FriendRequestViewModel())
+//                        .onTapGesture {
+//                            self.selectedIndex = 4
+//                        }
+//                }
+//                .tabItem {
+//                    VStack {
+//                        if friendViewModel.friends.count == 0 {
+//                            Image(systemName: "bell")
+//                        } else {
+//                            Image(systemName: "bell.badge")
+//                        }
+//                        Text("Notifications")
+//                    }
+//                }.tag(4)
                 
                 NavigationStack{
                     ProfileView(user: user!)
@@ -112,22 +129,39 @@ struct MainTabView: View {
                         Text("Account")
                     }
                 }.tag(5)
+                
+//                //MARK: Friends Screen
+//                NavigationStack {
+//                    ExploreView()
+//                    //                        UserView()
+//                        .onTapGesture {
+//                            self.selectedIndex = 6
+//                        }
+//                }
+//                .tabItem {
+//                    VStack {
+//                        Image(systemName: "person.2")
+//                        Text("Friends")
+//                    }
+//                }.tag(6)
             }
             .padding(.top, 2)
             .padding(.bottom, 4)
         }
-        .accentColor(.themeGreen)
+        .accentColor(.opposite)
         .navigationTitle("\(AppConstants.appNameUpperCase)")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 
-struct MainTabView_Previews: PreviewProvider {
+struct UpdatedHomeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             MainTabView(friendViewModel: FriendRequestViewModel())
-            
+                .preferredColorScheme(.dark)
+                .environmentObject(HomeViewModel())
+                .environmentObject(UpdatedHomeViewModel())
         }
     }
 }

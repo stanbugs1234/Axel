@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct ActivityFilterRowView: View {
+    let viewModel: ActivityFilterViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            Group {
+                Image(systemName: viewModel.imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 18, height: 18)
+                
+                Text(viewModel.title)
+                    .fontWeight(.semibold)
+            
+        }
     }
 }
 
 #Preview {
-    ActivityFilterRowView()
+    ActivityFilterRowView(viewModel: ActivityFilterViewModel.personal)
 }
